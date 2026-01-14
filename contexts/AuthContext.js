@@ -9,37 +9,37 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-      const bootstrapAuth = async () => {
-      try {
-        const token = await SecureStore.getItemAsync(TOKEN_KEY);
+  const bootstrapAuth = async () => {
+    try {
+      const token = await SecureStore.getItemAsync(TOKEN_KEY);
 
-        if (token) {
-          // contoh fetch profile
-          const res = await fetch(`${apiUrl}/user`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+      if (token) {
+        // contoh fetch profile
+        const res = await fetch(`${apiUrl}/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-          if (res.ok) {
-            const userData = await res.json();
-            console.log("userData", userData)
-            setUser(userData.data);
-          } else {
-            await SecureStore.deleteItemAsync(TOKEN_KEY);
-          }
+        if (res.ok) {
+          const userData = await res.json();
+          console.log("userData", userData)
+          setUser(userData.data);
+        } else {
+          await SecureStore.deleteItemAsync(TOKEN_KEY);
         }
-      } catch (e) {
-        console.log("Auth bootstrap error", e);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (e) {
+      console.log("Auth bootstrap error", e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 🔁 bootstrap auth saat app start
   useEffect(() => {
     bootstrapAuth();
-  }, []); 
+  }, []);
 
   // 🔐 LOGIN
   const login = async (username, password) => {
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      const {data} = await res.json();
+      const { data } = await res.json();
 
       if (data) {
         console.log("data login di authProvider", data.token);
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
         bootstrapAuth();
       }
 
-     
+
     } catch (error) {
       console.log("Login error di authProvider", error);
     } finally {

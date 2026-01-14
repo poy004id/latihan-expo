@@ -1,4 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext";
+import ChildComponent from "@/screens/account/ChildComponent";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -49,6 +50,7 @@ const account = () => {
         >
           Logout
         </Button>
+        <ChildComponent title="Logout from Child Component" />
       </View>
     </SafeAreaView>
   )
@@ -69,3 +71,5 @@ const customStyles = (colors: any) =>
       fontWeight: "bold",
     },
   });
+
+
